@@ -20,7 +20,7 @@ class App extends Component {
     return (
       <div>
         <QrReader
-          facingMode="user"
+          facingMode="environment"
           delay={300}
           onError={this.handleError}
           onScan={this.handleScan}
