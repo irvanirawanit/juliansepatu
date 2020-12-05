@@ -19,6 +19,7 @@ class App extends Component {
   render() {
     return (
       <div>
+        <h2>Irvan Tes</h2>
         <QrReader
           facingMode="environment"
           delay={300}
