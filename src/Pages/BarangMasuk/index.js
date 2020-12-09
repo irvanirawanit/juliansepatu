@@ -17,7 +17,7 @@ export default class App extends React.Component {
     formsubmit(event) {
         event.preventDefault();
         
-        axios.post('http://localhost:8088/api/barangmasuk/', {
+        axios.post('https://juliansepatu99.herokuapp.com/api/barangmasuk/', {
             NamaBarang: event.target.barang.value,
             Jumlah: event.target.jumlah.value,
           })
@@ -46,7 +46,7 @@ export default class App extends React.Component {
           });
     }
     componentDidMount() {
-        fetch('http://localhost:8088/api/barangmasuk')
+        fetch('https://juliansepatu99.herokuapp.com/api/barangmasuk')
         .then((response) => response.json())
         .then((data) => {
                             this.setState({rows:data});
