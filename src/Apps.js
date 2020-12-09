@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Appsatu from './App';
+import BarangMasuk from './Pages/BarangMasuk';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -79,7 +80,7 @@ export default function ScrollableTabsButtonAuto() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-      Barang Masuk
+      <BarangMasuk />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Appsatu />
