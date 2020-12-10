@@ -27,7 +27,7 @@ export default class App extends React.Component {
               "Access-Control-Allow-Origin": "*",
           }
         };
-        axios.get('https://juliansepatu99.herokuapp.com/api/barangmasuk/create', postData, axiosConfig)
+        axios.get('https://juliansepatu99.herokuapp.com/api/barangmasuk/create?NamaBarang='+event.target.barang.value+'&Jumlah='+event.target.jumlah.value, postData, axiosConfig)
           .then((response) => {
             // this.setState({name: "RESPONSE TEXT"});
             //this.setState({name: response.data.name});
