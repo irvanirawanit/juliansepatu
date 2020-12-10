@@ -16,11 +16,18 @@ export default class App extends React.Component {
     }
     formsubmit(event) {
         event.preventDefault();
+        var postData ={
+          NamaBarang: event.target.barang.value,
+          Jumlah: event.target.jumlah.value,
+        };
         
-        axios.post('https://juliansepatu99.herokuapp.com/api/barangmasuk/', {
-            NamaBarang: event.target.barang.value,
-            Jumlah: event.target.jumlah.value,
-          })
+        let axiosConfig = {
+          headers: {
+              'Content-Type': 'application/json;charset=UTF-8',
+              "Access-Control-Allow-Origin": "*",
+          }
+        };
+        axios.post('http://localhost:8088/api/barangmasuk/', postData, axiosConfig)
           .then((response) => {
             // this.setState({name: "RESPONSE TEXT"});
             //this.setState({name: response.data.name});
@@ -46,7 +53,7 @@ export default class App extends React.Component {
           });
     }
     componentDidMount() {
-        fetch('https://juliansepatu99.herokuapp.com/api/barangmasuk')
+        fetch('http://localhost:8088/api/barangmasuk')
         .then((response) => response.json())
         .then((data) => {
                             this.setState({rows:data});
