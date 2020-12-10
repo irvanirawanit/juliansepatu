@@ -8,40 +8,131 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
+import QRCode from "react-qr-code";
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import ReactToPrint from "react-to-print";
 
-const useStyles = makeStyles({
-    table: {
-        minWidth: 350
+
+export default class Tabel extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            dialogopen: false,
+            nobarang:'not'
+        };
+        this.handleClickOpen = this.handleClickOpen.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
-});
-
-export default function DenseTable(props) {
-    const classes = useStyles();
-    return (
-        <Box component="span" m={1}>
+    handleClickOpen = (val) => {
+        this.setState({nobarang:val});
+        this.setState({dialogopen:true});
+      };
+    
+    handleClose = () => {
+        this.setState({dialogopen:false});
+      };
+    render() {
+        return (
+            <Box component="span" m={1}>
             <TableContainer component={Paper}>
-                <Table className={classes.table} size="small" aria-label="a dense table">
+                <Table size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>
                             <TableCell>Nama Barang</TableCell>
                             <TableCell>Jumlah</TableCell>
-                            <TableCell>Kode</TableCell>
                             <TableCell>Tanggal Masuk</TableCell>
+                            <TableCell>Kode</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {props.rows.map((row) => (
+                        {
+                            this.props.rows.map((row) => (
                                     <TableRow key={row.BarangMasukId}>
                                         <TableCell>{row.NamaBarang}</TableCell>
                                         <TableCell>{row.Jumlah}</TableCell>
-                                        <TableCell>{row.NoBarang}</TableCell>
                                         <TableCell>{row.created_at}</TableCell>
+                                        <TableCell>
+                                            <Button variant="outlined" color="primary" onClick={this.handleClickOpen.bind(this,row.NoBarang)}>
+                                                Code
+                                            </Button>
+                                        </TableCell>
                                     </TableRow>
                                 ))
                         }
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Dialog
+                open={this.state.dialogopen}
+                onClose={this.handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description">
+                {/* <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle> */}
+                <DialogContent>
+                    <DialogContentText>
+                        <QRCode value={this.state.nobarang} />
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={this.handleClose} color="primary">
+                    <ReactToPrint
+                                trigger={() => <a href="#">Print</a>}
+                                content={() => this.componentRef}
+                                />
+                    </Button>
+                    <Button onClick={this.handleClose} color="primary" autoFocus="autoFocus">
+                        Close
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <div style={{ display: "none" }}>
+                <ComponentToPrint ref={(el) => (this.componentRef = el)} nobarang={this.state.nobarang}/>
+            </div>
         </Box>
-    );
+        )
+    }
 }
+
+class ComponentToPrint extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            ukuran: localStorage.getItem('ukuranqrcode') || 128,
+            jumlahqrcode:20,
+            jumlahx:[]
+        };
+    }
+
+    componentDidMount = () => {
+        this.listData();
+    }
+
+    listData = () => {
+        let arr = []
+        for(let i = 1; i <= this.state.jumlahqrcode; i++){
+            arr.push(i)
+        }
+        this.setState({jumlahx:arr})
+    }
+
+    render() {
+      return (
+        <div>
+            <div>
+                {
+                    this.state.jumlahx.map((key,i) => (
+                        <span  style={{marginTop:10,padding:10}} key={i}><QRCode bgColor={'#FFFFFF'} fgColor={'#000000'} size={this.state.ukuran} value={this.props.nobarang}/></span>
+                    ))
+                }
+                
+            </div>
+        </div>
+      );
+    }
+  }
+  
