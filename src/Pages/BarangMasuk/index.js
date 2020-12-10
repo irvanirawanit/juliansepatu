@@ -23,11 +23,11 @@ export default class App extends React.Component {
         
         let axiosConfig = {
           headers: {
-              'Content-Type': 'application/json;charset=UTF-8',
+              'Content-Type': 'application/json',
               "Access-Control-Allow-Origin": "*",
           }
         };
-        axios.post('https://juliansepatu99.herokuapp.com/api/barangmasuk/', postData, axiosConfig)
+        axios.get('https://juliansepatu99.herokuapp.com/api/barangmasuk/create', postData, axiosConfig)
           .then((response) => {
             // this.setState({name: "RESPONSE TEXT"});
             //this.setState({name: response.data.name});
