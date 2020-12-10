@@ -27,7 +27,7 @@ export default class App extends React.Component {
               "Access-Control-Allow-Origin": "*",
           }
         };
-        axios.post('http://localhost:8088/api/barangmasuk/', postData, axiosConfig)
+        axios.post('https://juliansepatu99.herokuapp.com/api/barangmasuk/', postData, axiosConfig)
           .then((response) => {
             // this.setState({name: "RESPONSE TEXT"});
             //this.setState({name: response.data.name});
@@ -53,7 +53,7 @@ export default class App extends React.Component {
           });
     }
     componentDidMount() {
-        fetch('http://localhost:8088/api/barangmasuk')
+        fetch('https://juliansepatu99.herokuapp.com/api/barangmasuk')
         .then((response) => response.json())
         .then((data) => {
                             this.setState({rows:data});
