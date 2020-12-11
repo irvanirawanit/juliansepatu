@@ -8,6 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Appsatu from './App';
 import BarangMasuk from './Pages/BarangMasuk';
+import BarangKeluar from './Pages/BarangKeluar';
+import BarangReturn from './Pages/BarangReturn';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -74,30 +76,18 @@ export default function ScrollableTabsButtonAuto() {
           <Tab label="Barang Keluar" {...a11yProps(1)} />
           <Tab label="Barang Return" {...a11yProps(2)} />
           <Tab label="None" {...a11yProps(3)} />
-          <Tab label="None" {...a11yProps(4)} />
-          <Tab label="None" {...a11yProps(5)} />
-          <Tab label="None" {...a11yProps(6)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-      <BarangMasuk />
+        <BarangMasuk />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Appsatu />
+        <BarangKeluar />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Appsatu />
+        <BarangReturn />
       </TabPanel>
       <TabPanel value={value} index={3}>
-      None
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-      None
-      </TabPanel>
-      <TabPanel value={value} index={5}>
-      None
-      </TabPanel>
-      <TabPanel value={value} index={6}>
       None
       </TabPanel>
     </div>

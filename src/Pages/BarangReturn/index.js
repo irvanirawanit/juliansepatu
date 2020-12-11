@@ -1,6 +1,5 @@
 import React from 'react';
 import QrReader from 'react-qr-reader'
-import Tabel from './Tabel';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -22,14 +21,24 @@ export default class App extends React.Component {
         };
     }
     componentDidMount() {
-        fetch('http://localhost:3001/api/barangkeluar')
-            .then(
-                (response) => response.json()
-            )
-            .then((data) => {
-              console.log(data);
-                this.setState({rows: data});
-            });
+      const apiUrl = 'https://api.github.com/users/hacktivist123/repos';
+      fetch(apiUrl)
+        .then((response) => response.json())
+        .then((data) => console.log('This is your data', data));
+    }
+    createData(name, calories, fat, carbs, protein) {
+        return { name, calories, fat, carbs, protein };
+    }
+    generateData(){
+        this.setState({
+            rows:[
+                this.createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+                this.createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+                this.createData('Eclair', 262, 16.0, 24, 6.0),
+                this.createData('Cupcake', 305, 3.7, 67, 4.3),
+                this.createData('Gingerbread', 356, 16.0, 49, 3.9),
+            ]
+        })
     }
     render() { 
       return(
@@ -40,10 +49,9 @@ export default class App extends React.Component {
             delay={300}
             onError={this.handleError}
             onScan={this.handleScan}
-            style={{ width: '50%' }}
+            style={{ width: '100%' }}
           />
           <p>{this.state.result}</p>
-          <Tabel rows={this.state.rows}/>
         </div>
       )
     }

@@ -2,8 +2,8 @@ import React from 'react';
 import Tabel from './Tabel';
 import Forminput from './Form';
 import axios from 'axios';
-import Backdrop from "@material-ui/core/Backdrop";
-import CircularProgress from "@material-ui/core/CircularProgress";
+// import Backdrop from "@material-ui/core/Backdrop";
+// import CircularProgress from "@material-ui/core/CircularProgress";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -37,9 +37,11 @@ export default class App extends React.Component {
                 "Access-Control-Allow-Origin": "*"
             }
         };
+        // https://juliansepatu99.herokuapp.com
+        // http://localhost:3001
         axios
             .get(
-                'https://juliansepatu99.herokuapp.com/api/barangmasuk/create?NamaBarang=' +
+                'http://localhost:3001/api/barangmasuk/create?NamaBarang=' +
                         event.target.barang.value + '&Jumlah=' + event.target.jumlah.value,
                 postData,
                 axiosConfig
@@ -74,7 +76,7 @@ export default class App extends React.Component {
             });
     }
     componentDidMount() {
-        fetch('https://juliansepatu99.herokuapp.com/api/barangmasuk')
+        fetch('http://localhost:3001/api/barangmasuk')
             .then(
                 (response) => response.json()
             )
@@ -85,9 +87,9 @@ export default class App extends React.Component {
     render() {
         return (
             <div>
-                <Backdrop open={true}>
+                {/* <Backdrop open={true}>
                     <CircularProgress color="inherit"/>
-                </Backdrop>
+                </Backdrop> */}
                 <Forminput radioklik={this.radioklik} formsubmit={this.formsubmit} proses={this.state.proses} radiovalue={this.state.radiovalue} />
                 <Tabel rows={this.state.rows}/>
             </div>
