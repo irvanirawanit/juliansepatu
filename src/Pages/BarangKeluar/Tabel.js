@@ -45,13 +45,13 @@ export default class Tabel extends React.Component {
             .bind(this);
     }
     handleClickOpenDialogDua = (val) => {
-        this.setState({dialogopendua: true,nobarang:'berubah'});
+        this.setState({dialogopendua: true, nobarang: 'berubah'});
         fetch('http://localhost:3001/api/barangmasuk/20201210sku10')
             .then(
                 (response) => response.json()
             )
             .then((data) => {
-              console.log(data);
+                console.log(data);
                 this.setState({rows: data});
             });
     };
@@ -60,6 +60,7 @@ export default class Tabel extends React.Component {
         this.setState({dialogopen: true});
     };
     handleClose = () => {
+        this.setState({dialogopen: false});
         this.setState({dialogopendua: false});
     };
     render() {
@@ -97,7 +98,9 @@ export default class Tabel extends React.Component {
                                                 <Button
                                                     variant="outlined"
                                                     color="primary"
-                                                    onClick={this.handleClickOpenDialogDua.bind(this,'20201210sku10')}>
+                                                    onClick={this
+                                                        .handleClickOpenDialogDua
+                                                        .bind(this, '20201210sku10')}>
                                                     Tes
                                                 </Button>
                                             </TableCell>
@@ -114,7 +117,7 @@ export default class Tabel extends React.Component {
                     aria-describedby="alert-dialog-description">
                     <DialogContent>
                         <DialogContentText>
-                            <ComponentKontenDialog tes={this.state.nobarang}/>
+                            <ComponentKontenDialog detailbarang={this.props.detailbarang}/>
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
@@ -156,75 +159,34 @@ export default class Tabel extends React.Component {
     }
 }
 
-class ComponentToPrint extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            ukuran: localStorage.getItem('ukuranqrcode') || 128,
-            jumlahqrcode: 20,
-            jumlahx: []
-        };
-    }
-
-    componentDidMount = () => {
-        this.listData();
-    }
-
-    listData = () => {
-        let arr = []
-        for (let i = 1; i <= this.state.jumlahqrcode; i++) {
-            arr.push(i)
-        }
-        this.setState({jumlahx: arr})
-    }
-
-    render() {
-        return (
-            <div>
-                <div>
-                    {
-                        this.state.jumlahx.map((key, i) => (
-                                <span
-                                    style={{
-                                        marginTop: 10,
-                                        padding: 10
-                                    }}
-                                    key={i}><QRCode
-                                    bgColor={'#FFFFFF'}
-                                    fgColor={'#000000'}
-                                    size={this.state.ukuran}
-                                    value={this.props.nobarang}/></span>
-                            ))
-                    }
-
-                </div>
-            </div>
-        );
-    }
-}
-
 class ComponentKontenDialog extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             proses: false,
             data: 'kosong',
-            rows: []
+            rows: [],
+            dialogopen: false,
+            nobarang: 'salah',
+            dialogopen: false
         };
+        this.handleClose = this
+            .handleClose
+            .bind(this);
     }
 
     componentDidMount = () => {
-      console.log(this.props.tes);
-      this.setState({data: this.props.tes});
-      fetch('http://localhost:3001/api/barangmasuk/'+this.props.tes)
-            .then(
-                (response) => response.json()
-            )
-            .then((data) => {
-              console.log(data);
-                this.setState({rows: data});
-            });
+        console.log('ComponentKontenDialog');
+        console.log(this.props.detailbarang);
     }
+
+    handleClickOpen = (val) => {
+        this.setState({nobarang: val});
+        this.setState({dialogopen: true});
+    };
+    handleClose = () => {
+        this.setState({dialogopen: false});
+    };
 
     radioklik = () => {
         // this.setState({dialogopendua: false});
@@ -238,17 +200,28 @@ class ComponentKontenDialog extends React.Component {
                         <TableHead>
                             <TableRow>
                                 <TableCell>Nama Barang</TableCell>
-                                <TableCell>Jumlah</TableCell>
+                                <TableCell>Stok</TableCell>
                                 <TableCell>Tanggal Masuk</TableCell>
                                 <TableCell>Kode</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             <TableRow key={1}>
-                                <TableCell>tes</TableCell>
-                                <TableCell>tes</TableCell>
-                                <TableCell>tes</TableCell>
-                                <TableCell>tes</TableCell>
+                                <TableCell>{this.props.detailbarang.NamaBarang}</TableCell>
+                                <TableCell>{this.props.detailbarang.Jumlah - 
+                                (this.props.detailbarang.barang_keluar_count != null ? this.props.detailbarang.barang_keluar_count : 0) +
+                                (this.props.detailbarang.barang_return_count != null ? this.props.detailbarang.barang_return_count : 0)}</TableCell>
+                                <TableCell>{this.props.detailbarang.created_at}</TableCell>
+                                <TableCell>
+                                    <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        onClick={this
+                                            .handleClickOpen
+                                            .bind(this, this.props.detailbarang.NoBarang)}>
+                                        Code
+                                    </Button>
+                                </TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
@@ -305,7 +278,7 @@ class ComponentKontenDialog extends React.Component {
                         </RadioGroup>
                     </FormControl>
                     <br/>
-                              <div>.{this.state.data}</div>
+                    <div>.{this.state.data}</div>
                     <FormControl>
                         <Button
                             type="submit"
@@ -319,6 +292,86 @@ class ComponentKontenDialog extends React.Component {
                         {this.state.proses && <CircularProgress size={24}/>}
                     </FormControl>
                 </form>
+
+                <Dialog
+                    open={this.state.dialogopen}
+                    onClose={this.handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description">
+                    <DialogContent>
+                        <DialogContentText>
+                            <QRCode value={this.state.nobarang}/>
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleClose} color="primary">
+                            <ReactToPrint
+                                trigger={() => <a href="#">Print</a>}
+                                content={() => this.componentRef}/>
+                        </Button>
+                        <Button onClick={this.handleClose} color="primary" autoFocus="autoFocus">
+                            Close
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
+                <div style={{
+                        display: "none"
+                    }}>
+                    <ComponentToPrint
+                        ref={(el) => (this.componentRef = el)}
+                        nobarang={this.state.nobarang}/>
+                </div>
+            </div>
+        );
+    }
+}
+
+class ComponentToPrint extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            ukuran: localStorage.getItem('ukuranqrcode') || 128,
+            jumlahqrcode: 20,
+            jumlahx: []
+        };
+    }
+
+    componentDidMount = () => {
+        this.listData();
+    }
+
+    listData = () => {
+        let arr = []
+        for (let i = 1; i <= this.state.jumlahqrcode; i++) {
+            arr.push(i)
+        }
+        this.setState({jumlahx: arr})
+    }
+
+    render() {
+        return (
+            <div>
+                <div>
+                    {
+                        this
+                            .state
+                            .jumlahx
+                            .map((key, i) => (
+                                <span
+                                    style={{
+                                        marginTop: 10,
+                                        padding: 10
+                                    }}
+                                    key={i}><QRCode
+                                    bgColor={'#FFFFFF'}
+                                    fgColor={'#000000'}
+                                    size={this.state.ukuran}
+                                    value={this.props.nobarang}/></span>
+                            ))
+                    }
+
+                </div>
             </div>
         );
     }

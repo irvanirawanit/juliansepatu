@@ -18,7 +18,9 @@ export default class App extends React.Component {
           active: 'Home',
           isLoaded: false,
           items: [],
-          rows:[]
+          rows:[],
+          detailbarang:[],
+          result: 'No result'
         };
     }
     componentDidMount() {
@@ -31,6 +33,24 @@ export default class App extends React.Component {
                 this.setState({rows: data});
             });
     }
+    handleScan = data => {
+      if (data) {
+        fetch('http://localhost:3001/api/barangmasuk/'+data)
+            .then(
+                (response) => response.json()
+            )
+            .then((dataapi) => {
+              console.log(dataapi);
+                this.setState({detailbarang: dataapi});
+            });
+        this.setState({
+          result: data
+        })
+      }
+    }
+    handleError = err => {
+      console.error(err)
+    }
     render() { 
       return(
         <div>
@@ -40,10 +60,10 @@ export default class App extends React.Component {
             delay={300}
             onError={this.handleError}
             onScan={this.handleScan}
-            style={{ width: '50%' }}
+            style={{ width: '30%' }}
           />
           <p>{this.state.result}</p>
-          <Tabel rows={this.state.rows}/>
+          <Tabel rows={this.state.rows} detailbarang={this.state.detailbarang}/>
         </div>
       )
     }
