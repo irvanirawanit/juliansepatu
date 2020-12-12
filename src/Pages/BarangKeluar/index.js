@@ -24,7 +24,7 @@ export default class App extends React.Component {
         this.handleSongFinishedPlaying = this.handleSongFinishedPlaying.bind(this);
     }
     componentDidMount() {
-        fetch('http://localhost:3001/api/barangkeluar').then((response) => response.json()).then((data) => {
+        fetch('https://juliansepatu99.herokuapp.com/api/barangkeluar').then((response) => response.json()).then((data) => {
             console.log(data);
             this.setState({rows: data});
         });
@@ -32,7 +32,7 @@ export default class App extends React.Component {
     handleScan = data => {
         if (data) {
           this.setState({playStatus: Sound.status.PLAYING})
-            fetch('http://localhost:3001/api/barangmasuk/' + data).then((response) => response.json()).then((dataapi) => {
+            fetch('https://juliansepatu99.herokuapp.com/api/barangmasuk/' + data).then((response) => response.json()).then((dataapi) => {
                 this.setState({detailbarang: dataapi,dialogopendua:true});
             });
         }
@@ -50,7 +50,7 @@ export default class App extends React.Component {
         return (
             <div>
                 <Sound
-                  url="http://localhost:3000/juliansepatu/suarabeep.wav"
+                  url="https://juliansepatu.herokuapp.com/juliansepatu/suarabeep.wav"
                   playStatus={this.state.playStatus}
                   playFromPosition={3 /* in milliseconds */}
                   onLoading={this.handleSongLoading}

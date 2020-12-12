@@ -38,10 +38,10 @@ export default class App extends React.Component {
             }
         };
         // https://juliansepatu99.herokuapp.com
-        // http://localhost:3001
+        // https://juliansepatu99.herokuapp.com
         axios
             .get(
-                'http://localhost:3001/api/barangmasuk/create?NamaBarang=' +
+                'https://juliansepatu99.herokuapp.com/api/barangmasuk/create?NamaBarang=' +
                         event.target.barang.value + '&Jumlah=' + event.target.jumlah.value,
                 postData,
                 axiosConfig
@@ -76,7 +76,7 @@ export default class App extends React.Component {
             });
     }
     componentDidMount() {
-        fetch('http://localhost:3001/api/barangmasuk')
+        fetch('https://juliansepatu99.herokuapp.com/api/barangmasuk')
             .then(
                 (response) => response.json()
             )
