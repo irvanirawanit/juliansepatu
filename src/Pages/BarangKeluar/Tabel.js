@@ -22,8 +22,9 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 // import TextField from '@material-ui/core/TextField';
 import SaveIcon from '@material-ui/icons/Save';
 import FormControl from '@material-ui/core/FormControl';
-import CircularProgress from "@material-ui/core/CircularProgress";
 // import {green} from '@material-ui/core/colors';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export default class Tabel extends React.Component {
     constructor(props) {
@@ -109,7 +110,10 @@ export default class Tabel extends React.Component {
                                 this.props.dialogopendualoading == false ?
                                 <ComponentKontenDialog detailbarang={this.props.detailbarang}/>
                                 :
-                                <div>Loading...</div>
+                                // <div>Loading...</div>
+                                // <Backdrop open={true}>
+                                    <CircularProgress color="inherit" />
+                                // </Backdrop>
                             }
                         </DialogContentText>
                     </DialogContent>

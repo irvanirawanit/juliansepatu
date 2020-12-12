@@ -32,7 +32,7 @@ export default class App extends React.Component {
     }
     handleScan = data => {
         if (data) {
-          this.setState({dialogopendualoading:true,playStatus: Sound.status.PLAYING,dialogopendua:true})
+          this.setState({dialogopendualoading:true,playStatus: Sound.status.PLAYING,dialogopendua:true});
             fetch('https://juliansepatu99.herokuapp.com/api/barangmasuk/' + data).then((response) => response.json()).then((dataapi) => {
                 this.setState({detailbarang: dataapi,dialogopendualoading:false});
             });
@@ -51,7 +51,7 @@ export default class App extends React.Component {
         return (
             <div>
                 <Sound
-                  url="https://juliansepatu.herokuapp.com/juliansepatu/suarabeep.wav"
+                  url="http://juliansepatu.herokuapp.com/juliansepatu/suarabeep.wav"
                   playStatus={this.state.playStatus}
                   playFromPosition={3 /* in milliseconds */}
                   onLoading={this.handleSongLoading}
