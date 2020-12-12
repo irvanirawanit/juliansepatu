@@ -18,6 +18,7 @@ export default class App extends React.Component {
             rows: [],
             detailbarang: [],
             dialogopendua: false,
+            dialogopendualoading: false,
             playStatus: Sound.status.STOPPED,
         };
         this.handleClosedialogopendua = this.handleClosedialogopendua.bind(this);
@@ -31,9 +32,9 @@ export default class App extends React.Component {
     }
     handleScan = data => {
         if (data) {
-          this.setState({playStatus: Sound.status.PLAYING})
+          this.setState({dialogopendualoading:true,playStatus: Sound.status.PLAYING,dialogopendua:true})
             fetch('https://juliansepatu99.herokuapp.com/api/barangmasuk/' + data).then((response) => response.json()).then((dataapi) => {
-                this.setState({detailbarang: dataapi,dialogopendua:true});
+                this.setState({detailbarang: dataapi,dialogopendualoading:false});
             });
         }
     }
@@ -66,7 +67,7 @@ export default class App extends React.Component {
                     style={{
                     width: '30%'
                 }}/>
-                <Tabel rows={this.state.rows} detailbarang={this.state.detailbarang} dialogopendua={this.state.dialogopendua} handleClosedialogopendua={this.handleClosedialogopendua}/>
+                <Tabel dialogopendualoading={this.state.dialogopendualoading} rows={this.state.rows} detailbarang={this.state.detailbarang} dialogopendua={this.state.dialogopendua} handleClosedialogopendua={this.handleClosedialogopendua}/>
             </div>
         )
     }

@@ -105,7 +105,12 @@ export default class Tabel extends React.Component {
                     aria-describedby="alert-dialog-description">
                     <DialogContent>
                         <DialogContentText>
-                            <ComponentKontenDialog detailbarang={this.props.detailbarang}/>
+                            {
+                                this.props.dialogopendualoading == false ?
+                                <ComponentKontenDialog detailbarang={this.props.detailbarang}/>
+                                :
+                                <div>Loading...</div>
+                            }
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
