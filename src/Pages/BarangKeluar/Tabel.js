@@ -1,5 +1,5 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
+// import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -14,16 +14,16 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+// import DialogTitle from '@material-ui/core/DialogTitle';
 import ReactToPrint from "react-to-print";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import TextField from '@material-ui/core/TextField';
+// import TextField from '@material-ui/core/TextField';
 import SaveIcon from '@material-ui/icons/Save';
 import FormControl from '@material-ui/core/FormControl';
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {green} from '@material-ui/core/colors';
+// import {green} from '@material-ui/core/colors';
 
 export default class Tabel extends React.Component {
     constructor(props) {
@@ -34,26 +34,15 @@ export default class Tabel extends React.Component {
             nobarang: '20201210sku10',
             detailbarang: []
         };
-        this.handleClickOpen = this
-            .handleClickOpen
-            .bind(this);
-        this.handleClose = this
-            .handleClose
-            .bind(this);
-        this.handleClickOpenDialogDua = this
-            .handleClickOpenDialogDua
-            .bind(this);
+        this.handleClickOpen = this.handleClickOpen.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.handleClickOpenDialogDua = this.handleClickOpenDialogDua.bind(this);
     }
     handleClickOpenDialogDua = (val) => {
         this.setState({dialogopendua: true, nobarang: 'berubah'});
-        fetch('http://localhost:3001/api/barangmasuk/20201210sku10')
-            .then(
-                (response) => response.json()
-            )
-            .then((data) => {
-                console.log(data);
-                this.setState({rows: data});
-            });
+        fetch('http://localhost:3001/api/barangmasuk/20201210sku10').then((response) => response.json()).then((data) => {
+            this.setState({rows: data});
+        });
     };
     handleClickOpen = (val) => {
         this.setState({nobarang: val});
@@ -77,41 +66,40 @@ export default class Tabel extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {
-                                this
-                                    .props
-                                    .rows
-                                    .map((row) => (
-                                        <TableRow key={row.BarangKeluarId}>
-                                            <TableCell>{row.barang_masuk.NamaBarang}</TableCell>
-                                            <TableCell>{row.Jumlah}</TableCell>
-                                            <TableCell>{row.created_at}</TableCell>
-                                            <TableCell>
-                                                <Button
-                                                    variant="outlined"
-                                                    color="primary"
-                                                    onClick={this
-                                                        .handleClickOpen
-                                                        .bind(this, row.barang_masuk.NoBarang)}>
-                                                    Code
-                                                </Button>
-                                                <Button
-                                                    variant="outlined"
-                                                    color="primary"
-                                                    onClick={this
-                                                        .handleClickOpenDialogDua
-                                                        .bind(this, '20201210sku10')}>
-                                                    Tes
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))
-                            }
+                            {this
+                                .props
+                                .rows
+                                .map((row) => (
+                                    <TableRow key={row.BarangKeluarId}>
+                                        <TableCell>{row.barang_masuk.NamaBarang}</TableCell>
+                                        <TableCell>{row.Jumlah}</TableCell>
+                                        <TableCell>{row.created_at}</TableCell>
+                                        <TableCell>
+                                            <Button
+                                                variant="outlined"
+                                                color="primary"
+                                                onClick={this
+                                                .handleClickOpen
+                                                .bind(this, row.barang_masuk.NoBarang)}>
+                                                Code
+                                            </Button>
+                                            {/* <Button
+                                                variant="outlined"
+                                                color="primary"
+                                                onClick={this
+                                                .handleClickOpenDialogDua
+                                                .bind(this, '20201210sku10')}>
+                                                Tes
+                                            </Button> */}
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+}
                         </TableBody>
                     </Table>
                 </TableContainer>
                 <Dialog
-                    open={this.state.dialogopendua}
+                    open={this.props.dialogopendua}
                     onClose={this.handleClose}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description">
@@ -121,7 +109,7 @@ export default class Tabel extends React.Component {
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleClose} color="primary" autoFocus="autoFocus">
+                        <Button onClick={this.props.handleClosedialogopendua} color="primary" autoFocus="autoFocus">
                             Close
                         </Button>
                     </DialogActions>
@@ -148,8 +136,8 @@ export default class Tabel extends React.Component {
                     </DialogActions>
                 </Dialog>
                 <div style={{
-                        display: "none"
-                    }}>
+                    display: "none"
+                }}>
                     <ComponentToPrint
                         ref={(el) => (this.componentRef = el)}
                         nobarang={this.state.nobarang}/>
@@ -208,17 +196,19 @@ class ComponentKontenDialog extends React.Component {
                         <TableBody>
                             <TableRow key={1}>
                                 <TableCell>{this.props.detailbarang.NamaBarang}</TableCell>
-                                <TableCell>{this.props.detailbarang.Jumlah - 
-                                (this.props.detailbarang.barang_keluar_count != null ? this.props.detailbarang.barang_keluar_count : 0) +
-                                (this.props.detailbarang.barang_return_count != null ? this.props.detailbarang.barang_return_count : 0)}</TableCell>
+                                <TableCell>{this.props.detailbarang.Jumlah - (this.props.detailbarang.barang_keluar_count != null
+                                        ? this.props.detailbarang.barang_keluar_count
+                                        : 0) + (this.props.detailbarang.barang_return_count != null
+                                        ? this.props.detailbarang.barang_return_count
+                                        : 0)}</TableCell>
                                 <TableCell>{this.props.detailbarang.created_at}</TableCell>
                                 <TableCell>
                                     <Button
                                         variant="outlined"
                                         color="primary"
                                         onClick={this
-                                            .handleClickOpen
-                                            .bind(this, this.props.detailbarang.NoBarang)}>
+                                        .handleClickOpen
+                                        .bind(this, this.props.detailbarang.NoBarang)}>
                                         Code
                                     </Button>
                                 </TableCell>
@@ -237,42 +227,42 @@ class ComponentKontenDialog extends React.Component {
                             defaultValue="top">
                             <FormControlLabel
                                 value="lazada"
-                                control={<Radio onClick = {
-                                    this.radioklik
-                                }
-                                color = "primary" required />}
+                                control={< Radio onClick = {
+                                this.radioklik
+                            }
+                            color = "primary" required />}
                                 label="Lazada"
                                 labelPlacement="top"/>
                             <FormControlLabel
                                 value="shopee"
-                                control={<Radio onClick = {
-                                    this.radioklik
-                                }
-                                color = "primary" required />}
+                                control={< Radio onClick = {
+                                this.radioklik
+                            }
+                            color = "primary" required />}
                                 label="Shopee"
                                 labelPlacement="top"/>
                             <FormControlLabel
                                 value="tokopedia"
-                                control={<Radio onClick = {
-                                    this.radioklik
-                                }
-                                color = "primary" required />}
+                                control={< Radio onClick = {
+                                this.radioklik
+                            }
+                            color = "primary" required />}
                                 label="Tokopedia"
                                 labelPlacement="top"/>
                             <FormControlLabel
                                 value="bukalapak"
-                                control={<Radio onClick = {
-                                    this.radioklik
-                                }
-                                color = "primary" required />}
+                                control={< Radio onClick = {
+                                this.radioklik
+                            }
+                            color = "primary" required />}
                                 label="Bukalapak"
                                 labelPlacement="top"/>
                             <FormControlLabel
                                 value="lainnya"
-                                control={<Radio onClick = {
-                                    this.radioklik
-                                }
-                                color = "primary" required />}
+                                control={< Radio onClick = {
+                                this.radioklik
+                            }
+                            color = "primary" required />}
                                 label="Lainnya"
                                 labelPlacement="top"/>
                         </RadioGroup>
@@ -286,7 +276,7 @@ class ComponentKontenDialog extends React.Component {
                             color="primary"
                             size="small"
                             disabled={this.state.proses}
-                            startIcon={<SaveIcon />}>
+                            startIcon={< SaveIcon />}>
                             Submit
                         </Button>
                         {this.state.proses && <CircularProgress size={24}/>}
@@ -314,13 +304,8 @@ class ComponentKontenDialog extends React.Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
-
-                <div style={{
-                        display: "none"
-                    }}>
-                    <ComponentToPrint
-                        ref={(el) => (this.componentRef = el)}
-                        nobarang={this.state.nobarang}/>
+                <div style={{display: "none"}}>
+                    <ComponentToPrint ref={(el) => (this.componentRef = el)} nobarang={this.state.nobarang}/>
                 </div>
             </div>
         );
@@ -332,7 +317,7 @@ class ComponentToPrint extends React.Component {
         super(props);
         this.state = {
             ukuran: localStorage.getItem('ukuranqrcode') || 128,
-            jumlahqrcode: 20,
+            jumlahqrcode: localStorage.getItem('jumlahqrcode') || 20,
             jumlahx: []
         };
     }
@@ -353,24 +338,20 @@ class ComponentToPrint extends React.Component {
         return (
             <div>
                 <div>
-                    {
-                        this
-                            .state
-                            .jumlahx
-                            .map((key, i) => (
-                                <span
-                                    style={{
-                                        marginTop: 10,
-                                        padding: 10
-                                    }}
-                                    key={i}><QRCode
-                                    bgColor={'#FFFFFF'}
-                                    fgColor={'#000000'}
-                                    size={this.state.ukuran}
-                                    value={this.props.nobarang}/></span>
-                            ))
+                    {this
+                        .state
+                        .jumlahx
+                        .map((key, i) => (
+                            <span
+                                style={{marginTop: 10,padding: 10}}
+                                key={i}><QRCode
+                                bgColor={'#FFFFFF'}
+                                fgColor={'#000000'}
+                                size={this.state.ukuran}
+                                value={this.props.nobarang}/>
+                            </span>
+                        ))
                     }
-
                 </div>
             </div>
         );

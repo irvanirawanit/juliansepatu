@@ -87,9 +87,6 @@ export default class App extends React.Component {
     render() {
         return (
             <div>
-                {/* <Backdrop open={true}>
-                    <CircularProgress color="inherit"/>
-                </Backdrop> */}
                 <Forminput radioklik={this.radioklik} formsubmit={this.formsubmit} proses={this.state.proses} radiovalue={this.state.radiovalue} />
                 <Tabel rows={this.state.rows}/>
             </div>

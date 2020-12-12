@@ -6,7 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Appsatu from './App';
+// import Appsatu from './App';
 import BarangMasuk from './Pages/BarangMasuk';
 import BarangKeluar from './Pages/BarangKeluar';
 import BarangReturn from './Pages/BarangReturn';
@@ -75,7 +75,7 @@ export default function ScrollableTabsButtonAuto() {
           <Tab label="Barang Masuk" {...a11yProps(0)} />
           <Tab label="Barang Keluar" {...a11yProps(1)} />
           <Tab label="Barang Return" {...a11yProps(2)} />
-          <Tab label="None" {...a11yProps(3)} />
+          <Tab label="Setting" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -88,7 +88,7 @@ export default function ScrollableTabsButtonAuto() {
         <BarangReturn />
       </TabPanel>
       <TabPanel value={value} index={3}>
-      None
+      Belom Jadi
       </TabPanel>
     </div>
   );
