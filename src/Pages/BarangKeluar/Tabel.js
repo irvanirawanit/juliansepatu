@@ -348,15 +348,15 @@ class ComponentToPrint extends React.Component {
 
     render() {
         return (
-            <div>
+            <div style={{marginLeft:10,marginTop:10,padding:10}}>
                 <div>
                     {this
                         .state
                         .jumlahx
                         .map((key, i) => (
                             <span
-                                style={{marginTop: 10,padding: 10}}
-                                key={i}><QRCode
+                                key={i}>
+                                <QRCode
                                 bgColor={'#FFFFFF'}
                                 fgColor={'#000000'}
                                 size={this.state.ukuran}

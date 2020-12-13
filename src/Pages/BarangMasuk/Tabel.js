@@ -23,13 +23,14 @@ export default class Tabel extends React.Component {
         super(props);
         this.state = {
             dialogopen: false,
-            nobarang:'not'
+            nobarang:'not',
+            namabarang:'not'
         };
         this.handleClickOpen = this.handleClickOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
     }
-    handleClickOpen = (val) => {
-        this.setState({nobarang:val});
+    handleClickOpen = (val,val2) => {
+        this.setState({nobarang:val,namabarang:val2});
         this.setState({dialogopen:true});
       };
     
@@ -57,7 +58,7 @@ export default class Tabel extends React.Component {
                                         <TableCell>{row.Jumlah}</TableCell>
                                         <TableCell>{row.created_at}</TableCell>
                                         <TableCell>
-                                            <Button variant="outlined" color="primary" onClick={this.handleClickOpen.bind(this,row.NoBarang)}>
+                                            <Button variant="outlined" color="primary" onClick={this.handleClickOpen.bind(this,row.NoBarang,row.NamaBarang)}>
                                                 Code
                                             </Button>
                                         </TableCell>
@@ -91,7 +92,7 @@ export default class Tabel extends React.Component {
                 </DialogActions>
             </Dialog>
             <div style={{ display: "none" }}>
-                <ComponentToPrint ref={(el) => (this.componentRef = el)} nobarang={this.state.nobarang}/>
+                <ComponentToPrint ref={(el) => (this.componentRef = el)} nobarang={this.state.nobarang} namabarang={this.state.namabarang}/>
             </div>
         </Box>
         )
@@ -102,7 +103,7 @@ class ComponentToPrint extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            ukuran: localStorage.getItem('ukuranqrcode') || 128,
+            ukuran: localStorage.getItem('ukuranqrcode') || 150,
             jumlahqrcode: localStorage.getItem('jumlahqrcode') || 1,
             jumlahx:[]
         };
@@ -123,10 +124,11 @@ class ComponentToPrint extends React.Component {
     render() {
       return (
         <div>
-            <div>
+            <div style={{marginLeft:10,marginTop:10,padding:10}}>
                 {
                     this.state.jumlahx.map((key,i) => (
-                        <span  style={{marginTop:10,padding:10}} key={i}><QRCode bgColor={'#FFFFFF'} fgColor={'#000000'} size={this.state.ukuran} value={this.props.nobarang}/></span>
+                        <span key={i}><QRCode bgColor={'#FFFFFF'} fgColor={'#000000'} size={this.state.ukuran} value={this.props.nobarang}/><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{this.props.namabarang}</span>
                     ))
                 }
                 
