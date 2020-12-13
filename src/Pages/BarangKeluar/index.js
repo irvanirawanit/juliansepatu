@@ -1,6 +1,7 @@
 import React from 'react';
 import QrReader from 'react-qr-reader'
 import Tabel from './Tabel';
+import axios from 'axios';
 // import {makeStyles} from '@material-ui/core/styles';
 // import Table from '@material-ui/core/Table';
 // import TableBody from '@material-ui/core/TableBody';
@@ -23,9 +24,10 @@ export default class App extends React.Component {
         };
         this.handleClosedialogopendua = this.handleClosedialogopendua.bind(this);
         this.handleSongFinishedPlaying = this.handleSongFinishedPlaying.bind(this);
+        this.submitBarangKeluar = this.submitBarangKeluar.bind(this);
     }
     componentDidMount() {
-        fetch('https://juliansepatu99.herokuapp.com/api/barangkeluar').then((response) => response.json()).then((data) => {
+        fetch('http://localhost:3001/api/barangkeluar').then((response) => response.json()).then((data) => {
             console.log(data);
             this.setState({rows: data});
         });
@@ -33,7 +35,7 @@ export default class App extends React.Component {
     handleScan = data => {
         if (data) {
           this.setState({dialogopendualoading:true,playStatus: Sound.status.PLAYING,dialogopendua:true});
-            fetch('https://juliansepatu99.herokuapp.com/api/barangmasuk/' + data).then((response) => response.json()).then((dataapi) => {
+            fetch('http://localhost:3001/api/barangmasuk/' + data).then((response) => response.json()).then((dataapi) => {
                 this.setState({detailbarang: dataapi,dialogopendualoading:false});
             });
         }
@@ -46,6 +48,32 @@ export default class App extends React.Component {
     }
     handleSongFinishedPlaying() {
       this.setState({playStatus: Sound.status.STOPPED});
+    }
+    submitBarangKeluar(val) {
+      axios.get('http://localhost:3001/api/barangkeluar/create?BarangMasukId=' + this.state.detailbarang.BarangMasukId + '&toko=' + val + '&Jumlah=' + 1)
+            .then((response) => {
+                // var temp = {
+                //   BarangKeluarId: response.data.BarangKeluarId,
+                //     NoBarang: response.data.NoBarang,
+                //     Jumlah: response.data.Jumlah,
+                //     BarangMasukId: response.data.BarangMasukId,
+                //     created_at: response.data.created_at,
+                //     updated_at: response.data.updated_at,
+                //     deleted_at: response.data.deleted_at,
+                //     created_by: response.data.created_by,
+                //     updated_by: response.data.updated_by,
+                //     toko: response.data.toko,
+                //     toko: response.data.toko
+                // };
+                this.setState({ rows: [response.data, ...this.state.rows] });
+                this.setState({dialogopendua: false});
+                console.log(this.state.rows);
+                console.log(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+                alert('error jul.');
+            });
     }
     render() {
         return (
@@ -67,7 +95,7 @@ export default class App extends React.Component {
                     style={{
                     width: '30%'
                 }}/>
-                <Tabel dialogopendualoading={this.state.dialogopendualoading} rows={this.state.rows} detailbarang={this.state.detailbarang} dialogopendua={this.state.dialogopendua} handleClosedialogopendua={this.handleClosedialogopendua}/>
+                <Tabel submitBarangKeluar={this.submitBarangKeluar} dialogopendualoading={this.state.dialogopendualoading} rows={this.state.rows} detailbarang={this.state.detailbarang} dialogopendua={this.state.dialogopendua} handleClosedialogopendua={this.handleClosedialogopendua}/>
             </div>
         )
     }

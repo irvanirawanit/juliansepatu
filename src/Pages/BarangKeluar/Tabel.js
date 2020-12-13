@@ -63,6 +63,7 @@ export default class Tabel extends React.Component {
                                 <TableCell>Nama Barang</TableCell>
                                 <TableCell>Jumlah</TableCell>
                                 <TableCell>Tanggal Keluar</TableCell>
+                                <TableCell>Toko</TableCell>
                                 <TableCell>Kode</TableCell>
                             </TableRow>
                         </TableHead>
@@ -75,6 +76,7 @@ export default class Tabel extends React.Component {
                                         <TableCell>{row.barang_masuk.NamaBarang}</TableCell>
                                         <TableCell>{row.Jumlah}</TableCell>
                                         <TableCell>{row.created_at}</TableCell>
+                                        <TableCell>{row.toko}</TableCell>
                                         <TableCell>
                                             <Button
                                                 variant="outlined"
@@ -108,7 +110,7 @@ export default class Tabel extends React.Component {
                         <DialogContentText>
                             {
                                 this.props.dialogopendualoading == false ?
-                                <ComponentKontenDialog detailbarang={this.props.detailbarang}/>
+                                <ComponentKontenDialog submitBarangKeluar={this.props.submitBarangKeluar} detailbarang={this.props.detailbarang}/>
                                 :
                                 // <div>Loading...</div>
                                 // <Backdrop open={true}>
@@ -165,16 +167,21 @@ class ComponentKontenDialog extends React.Component {
             rows: [],
             dialogopen: false,
             nobarang: 'salah',
-            dialogopen: false
+            dialogopen: false,
+            toko: 0
         };
         this.handleClose = this
             .handleClose
+            .bind(this);
+        this.submitBarangKeluar = this
+            .submitBarangKeluar
             .bind(this);
     }
 
     componentDidMount = () => {
         console.log('ComponentKontenDialog');
         console.log(this.props.detailbarang);
+        this.setState({proses: false});
     }
 
     handleClickOpen = (val) => {
@@ -185,10 +192,20 @@ class ComponentKontenDialog extends React.Component {
         this.setState({dialogopen: false});
     };
 
-    radioklik = () => {
-        // this.setState({dialogopendua: false});
+    radioklik = (e) => {
+        console.log(e.target.value);
+        this.setState({toko: e.target.value});
     };
 
+    submitBarangKeluar(){
+        if (this.state.toko == 0) {
+            alert('Toko Belum dipilih.');
+        }else{
+            console.log(this.state.toko);
+            this.props.submitBarangKeluar(this.state.toko);
+            this.setState({proses: true});
+        }
+    }
     render() {
         return (
             <div>
@@ -226,7 +243,7 @@ class ComponentKontenDialog extends React.Component {
                     </Table>
                 </TableContainer>
                 <br/>
-                <form autoComplete="off">
+                {/* <form onSubmit={this.props.submitBarangKeluar} autoComplete="off"> */}
                     <FormControl required="required" fullWidth={true}>
                         <RadioGroup
                             required="required"
@@ -277,9 +294,10 @@ class ComponentKontenDialog extends React.Component {
                         </RadioGroup>
                     </FormControl>
                     <br/>
-                    <div>.{this.state.data}</div>
+                    <div>.</div>
                     <FormControl>
                         <Button
+                            onClick={this.submitBarangKeluar}
                             type="submit"
                             variant="contained"
                             color="primary"
@@ -290,7 +308,7 @@ class ComponentKontenDialog extends React.Component {
                         </Button>
                         {this.state.proses && <CircularProgress size={24}/>}
                     </FormControl>
-                </form>
+                {/* </form> */}
 
                 <Dialog
                     open={this.state.dialogopen}
