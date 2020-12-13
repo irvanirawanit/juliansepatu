@@ -27,7 +27,7 @@ export default class App extends React.Component {
         this.submitBarangKeluar = this.submitBarangKeluar.bind(this);
     }
     componentDidMount() {
-        fetch('http://localhost:3001/api/barangkeluar').then((response) => response.json()).then((data) => {
+        fetch('https://juliansepatu99.herokuapp.com/api/barangkeluar').then((response) => response.json()).then((data) => {
             console.log(data);
             this.setState({rows: data});
         });
@@ -35,7 +35,7 @@ export default class App extends React.Component {
     handleScan = data => {
         if (data) {
           this.setState({dialogopendualoading:true,playStatus: Sound.status.PLAYING,dialogopendua:true});
-            fetch('http://localhost:3001/api/barangmasuk/' + data).then((response) => response.json()).then((dataapi) => {
+            fetch('https://juliansepatu99.herokuapp.com/api/barangmasuk/' + data).then((response) => response.json()).then((dataapi) => {
                 this.setState({detailbarang: dataapi,dialogopendualoading:false});
             });
         }
@@ -50,7 +50,7 @@ export default class App extends React.Component {
       this.setState({playStatus: Sound.status.STOPPED});
     }
     submitBarangKeluar(val) {
-      axios.get('http://localhost:3001/api/barangkeluar/create?BarangMasukId=' + this.state.detailbarang.BarangMasukId + '&toko=' + val + '&Jumlah=' + 1)
+      axios.get('https://juliansepatu99.herokuapp.com/api/barangkeluar/create?BarangMasukId=' + this.state.detailbarang.BarangMasukId + '&toko=' + val + '&Jumlah=' + 1)
             .then((response) => {
                 // var temp = {
                 //   BarangKeluarId: response.data.BarangKeluarId,

@@ -37,14 +37,7 @@ export default class Tabel extends React.Component {
         };
         this.handleClickOpen = this.handleClickOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
-        this.handleClickOpenDialogDua = this.handleClickOpenDialogDua.bind(this);
     }
-    handleClickOpenDialogDua = (val) => {
-        this.setState({dialogopendua: true, nobarang: 'berubah'});
-        fetch('http://localhost:3001/api/barangmasuk/20201210sku10').then((response) => response.json()).then((data) => {
-            this.setState({rows: data});
-        });
-    };
     handleClickOpen = (val) => {
         this.setState({nobarang: val});
         this.setState({dialogopen: true});
@@ -86,14 +79,6 @@ export default class Tabel extends React.Component {
                                                 .bind(this, row.barang_masuk.NoBarang)}>
                                                 Code
                                             </Button>
-                                            {/* <Button
-                                                variant="outlined"
-                                                color="primary"
-                                                onClick={this
-                                                .handleClickOpenDialogDua
-                                                .bind(this, '20201210sku10')}>
-                                                Tes
-                                            </Button> */}
                                         </TableCell>
                                     </TableRow>
                                 ))
