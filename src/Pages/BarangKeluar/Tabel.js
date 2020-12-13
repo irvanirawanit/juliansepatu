@@ -329,7 +329,7 @@ class ComponentToPrint extends React.Component {
         super(props);
         this.state = {
             ukuran: localStorage.getItem('ukuranqrcode') || 128,
-            jumlahqrcode: localStorage.getItem('jumlahqrcode') || 20,
+            jumlahqrcode: localStorage.getItem('jumlahqrcode') || 1,
             jumlahx: []
         };
     }
