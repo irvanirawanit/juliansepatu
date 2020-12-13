@@ -38,6 +38,7 @@ export default function Form(props) {
     return (
         <div className={classes.root}>
             <Paper elevation={1} variant="outlined">
+                <div style={{fontStyle:'oblique',fontWeight: 'bold',margin:5}}>Mariyatul Grup</div>
                 <form onSubmit={props.formsubmit} autoComplete="off" className={classes.boxpadding}>
                     <FormControl required fullWidth={true} className={classes.margin}>
                         <RadioGroup required row="row" aria-label="position" name="barang" defaultValue="top" value={props.radiovalue}>
