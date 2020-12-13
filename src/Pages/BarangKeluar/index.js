@@ -93,7 +93,7 @@ export default class App extends React.Component {
                     onError={this.handleError}
                     onScan={this.handleScan}
                     style={{
-                    width: '30%'
+                    width: '100%'
                 }}/>
                 <Tabel submitBarangKeluar={this.submitBarangKeluar} dialogopendualoading={this.state.dialogopendualoading} rows={this.state.rows} detailbarang={this.state.detailbarang} dialogopendua={this.state.dialogopendua} handleClosedialogopendua={this.handleClosedialogopendua}/>
             </div>
