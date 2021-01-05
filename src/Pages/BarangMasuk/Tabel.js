@@ -16,6 +16,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ReactToPrint from "react-to-print";
+import Barcode from "react-barcode";
 
 
 export default class Tabel extends React.Component {
@@ -76,7 +77,7 @@ export default class Tabel extends React.Component {
                 {/* <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle> */}
                 <DialogContent>
                     <DialogContentText>
-                        <QRCode value={this.state.nobarang} />
+                        <Barcode value={this.state.nobarang} />
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -127,8 +128,14 @@ class ComponentToPrint extends React.Component {
             <div style={{marginLeft:10,marginTop:10,padding:10}}>
                 {
                     this.state.jumlahx.map((key,i) => (
-                        <span key={i}><QRCode bgColor={'#FFFFFF'} fgColor={'#000000'} size={this.state.ukuran} value={this.props.nobarang}/><br/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{this.props.namabarang}</span>
+                        <span key={i}>
+                        <Barcode value={this.props.nobarang} />
+                            <br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        {this.props.namabarang}</span>
                     ))
                 }
                 
