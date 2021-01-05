@@ -25,6 +25,7 @@ import FormControl from '@material-ui/core/FormControl';
 // import {green} from '@material-ui/core/colors';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Barcode from "react-barcode";
 
 export default class Tabel extends React.Component {
     constructor(props) {
@@ -117,7 +118,7 @@ export default class Tabel extends React.Component {
                     aria-describedby="alert-dialog-description">
                     <DialogContent>
                         <DialogContentText>
-                            <QRCode value={this.state.nobarang}/>
+                        <Barcode value={this.state.nobarang} />
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
@@ -302,7 +303,7 @@ class ComponentKontenDialog extends React.Component {
                     aria-describedby="alert-dialog-description">
                     <DialogContent>
                         <DialogContentText>
-                            <QRCode value={this.state.nobarang}/>
+                        <Barcode value={this.state.nobarang} />
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
@@ -356,11 +357,8 @@ class ComponentToPrint extends React.Component {
                         .map((key, i) => (
                             <span
                                 key={i}>
-                                <QRCode
-                                bgColor={'#FFFFFF'}
-                                fgColor={'#000000'}
-                                size={this.state.ukuran}
-                                value={this.props.nobarang}/>
+                                
+                                <Barcode value={this.props.nobarang} />
                             </span>
                         ))
                     }
