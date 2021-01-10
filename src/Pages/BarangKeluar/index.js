@@ -11,6 +11,7 @@ import axios from 'axios';
 // import TableRow from '@material-ui/core/TableRow';
 // import Paper from '@material-ui/core/Paper';
 import Sound from 'react-sound';
+import BarcodeReader from 'react-barcode-reader';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -87,14 +88,18 @@ export default class App extends React.Component {
                   onFinishedPlaying={this.handleSongFinishedPlaying}
                 />
                 <h2>Barang Keluar</h2>
-                <QrReader
+                {/* <QrReader
                     facingMode="environment"
                     delay={300}
                     onError={this.handleError}
                     onScan={this.handleScan}
                     style={{
                     width: '100%'
-                }}/>
+                }}/> */}
+                <BarcodeReader
+                    onError={this.handleError}
+                    onScan={this.handleScan}
+                    />
                 <Tabel submitBarangKeluar={this.submitBarangKeluar} dialogopendualoading={this.state.dialogopendualoading} rows={this.state.rows} detailbarang={this.state.detailbarang} dialogopendua={this.state.dialogopendua} handleClosedialogopendua={this.handleClosedialogopendua}/>
             </div>
         )
